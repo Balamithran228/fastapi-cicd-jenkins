@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    environment {
+        RENDER_HOOK = 'https://api.render.com/deploy/srv-xxx?key=your-key'
+    }
+
+    stages {
+        stage('Checkout from GitHub') {
+            steps {
+                git 'https://github.com/YOUR_USERNAME/fastapi-cicd-jenkins.git'
+            }
+        }
+
+        stage('Install Requirements') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'pytest'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t fastapi-check .'
+            }
+        }
+
+        stage('Trigger Render Deployment') {
+            steps {
+                sh "curl -X POST $RENDER_HOOK"
+            }
+        }
+    }
+}
