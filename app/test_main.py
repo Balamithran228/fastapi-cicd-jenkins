@@ -6,4 +6,4 @@ client = TestClient(app)
 def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello, Jenkins CI/CD with FastAPI111"}
+    assert response.json() == {"message": "Hello, Jenkins CI/CD with FastAPI Bala"}
